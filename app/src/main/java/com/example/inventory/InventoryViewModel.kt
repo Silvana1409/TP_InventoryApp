@@ -3,9 +3,6 @@ package com.example.inventory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.example.inventory.data.ItemDao
 import kotlinx.coroutines.launch
 import com.example.inventory.data.Item
@@ -38,6 +35,14 @@ class InventoryViewModel(private val itemDao: ItemDao): ViewModel() {
         val newItem = getNewItemEntry(itemName,itemPrice,itemCount)
         //Appel au fonct. insert.. pour ajouer à la bdd
         insertItem(newItem)
+    }
+
+    //fonction pour vérifier q les champs ne sont pas vides
+    fun isEntryValid(itemName: String, itemPrice: String, itemCount: String):Boolean{
+        if(itemName.isBlank() || itemPrice.isBlank() || itemCount.isBlank()){
+            return false
+        }
+        return true
     }
 
 }

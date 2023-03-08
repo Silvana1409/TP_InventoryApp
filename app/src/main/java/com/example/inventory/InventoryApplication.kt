@@ -21,8 +21,9 @@ import android.app.Application
 import com.example.inventory.data.ItemRoomDataBase
 
 class InventoryApplication : Application(){
+
     //instanciez databse en appelant get.. sur Item...
     //lazy : l'instance databse soit créer par nécessité
     //Créer la bdd physique s/le disque lors du prémier accès
-    val dataBase:ItemRoomDataBase by lazy { ItemRoomDataBase.getDatabase(this) }
+    val database:ItemRoomDataBase by lazy { ItemRoomDataBase.getDatabase(this) }
 }

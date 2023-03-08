@@ -24,13 +24,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.inventory.data.Item
 import com.example.inventory.databinding.FragmentAddItemBinding
 
 /**
  * Fragment to add or update an item in the Inventory database.
  */
 class AddItemFragment : Fragment() {
+
+    private val viewModel : InventoryViewModel by activityViewModels {
+        //constructeur et trasmis l'insance Item.., utilisé l'intsance dataBase quôn adéjà créé dnas une tâche précedente pour appeler le constructeur itemDao
+        InventoryViewModelFactory(
+            (activity?.application as InventoryApplication).database.itemDao())
+    }
+    lateinit var item : Item
+
+
 
     private val navigationArgs: ItemDetailFragmentArgs by navArgs()
 
@@ -49,6 +61,34 @@ class AddItemFragment : Fragment() {
         return binding.root
     }
 
+    //fonction privée qui renvoie un booleen
+    private fun isEntryValid():Boolean{
+        //appel de la fonction isEntryValid sur l'instance viewModel en transmis le texte issu des champs et on renvoie
+        return viewModel.isEntryValid(
+            binding.itemName.text.toString(),
+            binding.itemPrice.text.toString(),
+            binding.itemCount.text.toString()
+        )
+    }
+
+    //fonnction privé
+    private fun addNEwItem(){
+        //on appel la fonction isEntry..dnans la condition if
+        if (isEntryValid()) {
+            //on appel la méthode addNew.. sur l'instance viewModel et on trasmis les infos s/l'élément saisies par l'utilisateur et on utilise l'instance binding pour les lire
+            viewModel.addNewItem(
+                binding.itemName.text.toString(),
+                binding.itemPrice.text.toString(),
+                binding.itemCount.text.toString()
+            )
+
+            //variable pour revenir à ItemListFragment
+            val action = AddItemFragmentDirections.actionAddItemFragmentToItemListFragment()
+            //on transmis l'action
+            findNavController().navigate(action)
+        }
+    }
+
     /**
      * Called before fragment is destroyed.
      */
@@ -59,5 +99,12 @@ class AddItemFragment : Fragment() {
                 InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
         _binding = null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.saveAction.setOnClickListener{
+            addNEwItem()
+        }
     }
 }
