@@ -2,6 +2,7 @@
 //Création : 08.03.23
 package com.example.inventory.data
 import androidx.room.*
+import com.example.inventory.InventoryViewModel
 import kotlinx.coroutines.flow.Flow
 
 
