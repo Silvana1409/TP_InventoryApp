@@ -1,3 +1,5 @@
+//Auteur : Silvana Esquivel
+//Création : 08.03.23
 package com.example.inventory.data
 
 import androidx.room.ColumnInfo

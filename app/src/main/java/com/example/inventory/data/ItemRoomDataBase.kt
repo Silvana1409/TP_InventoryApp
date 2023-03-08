@@ -1,5 +1,6 @@
+//Auteur : Silvana Esquivel
+//Création : 08.03.23
 package com.example.inventory.data
-
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
