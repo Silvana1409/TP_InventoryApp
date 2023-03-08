@@ -26,7 +26,7 @@ interface ItemDao {
     //Flow : permettre d'être averti à chaque fois q des éléments de la bdd sont modifiés
     fun getItem(id: Int): Flow<Item>
 
-    @Query("SELECT * from item  BY name ASC")
+    @Query("SELECT * from item ORDER BY name ASC")
     fun getItems():Flow<List<Item>>
 
 
